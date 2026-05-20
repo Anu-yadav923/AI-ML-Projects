@@ -16,13 +16,15 @@
 #print(students)
 #print(students[0])
 
+import ast
 students = []
-print("/n Welcome to student management system")
+print("\n Welcome to student management system")
 print("1. Add student")
 print("2. View student")
 print("3. Search Student")
 print("4. Delete Student")
-print("5. Exit")
+print("5. Update Marks")
+print("6. Exit")
 
 while(True):
     choice = input("Enter choice : ")
@@ -40,7 +42,13 @@ while(True):
         print("Student added successfully!")
 
     elif choice == '2':
-        print(students)
+       # print(students)
+       file = open("student.txt", "r")
+       read = file.read()
+       data = ast.literal_eval(read)  #previously we read data as string which are store in student.txt file BUT we want to read the real data , so we import a module "ast" and here we use a function called litral_eval which converts string data into REAL PYTHON DATA.
+       print(data)
+       print(type(data))
+       file.close()
 
     elif choice == '3':
        search_student = input("Enter student name to search : ")
@@ -51,6 +59,7 @@ while(True):
                 print("name : ", student["name"])
                 print("marks : ", student["marks"])
                 flag = True
+                break
     
        if flag == False :
             print("student not found")
@@ -61,9 +70,26 @@ while(True):
             if delete_student == student["name"] :
                 students.remove(student)
                 print("student deleted successfully!")
+                break
+
 
     elif choice == '5':
+        updated_name = input("Enter name whose marks to be updated : ")
+        found = False
+        for student in students :
+            if student["name"] == updated_name :
+                new_marks = int(input("Enter Marks to be updated : "))
+                student["marks"] = new_marks
+                print(f'{student["name"]} Marks updated successfully')
+                found = True
+                break
+
+        if found == False:
+            print("student not found")
+    elif choice == '6':
         print("Exit....")
         break
 
- 
+file = open("student.txt", "w")
+file.write(str(students))
+file.close()
