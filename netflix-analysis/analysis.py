@@ -1,3 +1,4 @@
+import seaborn as sns
 import pandas as pd
 
 import matplotlib.pyplot as plt
@@ -82,3 +83,38 @@ plt.show()
 
 latest_movies = df.sort_values(by="release_year", ascending=False)
 print(latest_movies[["title", "release_year"]].head())
+
+# CORRELATION
+numeric_data = movies[["release_year", "duration"]]
+print(numeric_data.corr())
+
+#CREATE HEATMAP
+
+correlation = numeric_data.corr()
+sns.heatmap(correlation, annot=True)
+plt.show()
+
+df = df.drop_duplicates()
+print(df["type"].unique())
+print(df["country"].nunique())
+
+long_movies = movies.sort_values(by="duration", ascending=False)
+print(long_movies[["title","duration"]].head())
+
+# CREATE SCATTER PLOT
+plt.scatter(
+    movies["release_year"],
+    movies["duration"]
+)
+
+plt.title("Release Year vs Duration")
+plt.xlabel("Release_year")
+plt.ylabel("Duration")
+plt.show()
+
+#RECOMMENDATION SYSTEM
+comedis = df[df["listed_in"].str.contains("Comedy", na=False)]
+print(comedis[["title", "listed_in"]].head())
+
+# SAVE CLEANED DATASET
+df.to_csv("cleaned_netflix.csv", index=False)
