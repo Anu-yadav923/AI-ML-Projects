@@ -66,12 +66,16 @@ while(True):
 
     elif choice == '4':
         delete_student = input("Enter student to delete : ")
+        flag = False
         for student in students :
             if delete_student == student["name"] :
                 students.remove(student)
                 print("student deleted successfully!")
+                flag = True
                 break
 
+        if flag == False:
+            print("Student not found")        
 
     elif choice == '5':
         updated_name = input("Enter name whose marks to be updated : ")
